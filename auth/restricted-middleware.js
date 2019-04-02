@@ -1,16 +1,20 @@
-// STEP 4 Clean up restricted function to check session 
-
+// STEP 4 Clean up restricted function to check session
 
 // Now unessecarry
 // const bcrypt = require('bcryptjs');
 // const Users = require('../users/users-model.js');
 
 module.exports = (req, res, next) => {
-  if (req && req.session && req.session.user) {
-    next();
-  } else {
-    res.status(401).json({ message: 'Invalid Credentials' });
+  try {
+    if (req && req.session && req.session.user) {
+      next();
+    } else {
+      res.status(401).json({ message: "Invalid Credentials" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'you broke it' })
   }
+
   // We can now clear out this code since we check the session
   // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
   // const { username, password } = req.headers;
